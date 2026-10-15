@@ -4,6 +4,8 @@ import Quickshell
 import QtQuick
 
 PanelWindow {
+    id: root
+    required property var popup
     exclusionMode: ExclusionMode.Ignore
     focusable: false
     anchors {
@@ -16,6 +18,6 @@ PanelWindow {
     color: "transparent"
     MouseArea {
         anchors.fill: parent
-        onClicked: popup.visible = false
+        onClicked: root.popup.visible = false
     }
 }

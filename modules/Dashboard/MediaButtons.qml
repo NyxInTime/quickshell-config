@@ -15,7 +15,7 @@ RowLayout {
         font.pixelSize: Config.Theme.fontSize
         MouseArea {
             anchors.fill: parent
-            onClicked: activeSpotifyPlayer.previous()
+            onClicked: Services.MediaPlayer.activeSpotifyPlayer.previous()
         }
     }
     Text {

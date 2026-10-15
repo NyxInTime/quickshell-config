@@ -1,10 +1,6 @@
-import Quickshell
-import Quickshell.Services.Mpris
 import QtQuick
-import QtQuick.Layouts
 
 import "media"
-import qs.config as Config
 import qs.services as Services
 
 Rectangle {

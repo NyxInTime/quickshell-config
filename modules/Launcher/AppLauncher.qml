@@ -19,7 +19,7 @@ Scope {
             launcherPanel.visible = !launcherPanel.visible;
             if (launcherPanel.visible) {
                 searchInput.text = "";
-                selectedIndex = 0;
+                root.selectedIndex = 0;
                 searchInput.forceActiveFocus();
             }
         }
@@ -112,7 +112,7 @@ Scope {
                 // Search bar
                 Rectangle {
                     Layout.fillWidth: true
-                    height: 44
+                    implicitHeight: 44
                     radius: 10
                     color: theme.bgSurface //root.theme.bgSurface
                     border.color: searchInput.activeFocus ? root.theme.accentPrimary : root.theme.bgBorder
@@ -252,8 +252,8 @@ Scope {
 
                             // App icon
                             Item {
-                                width: 28
-                                height: 28
+                                implicitWidth: 28
+                                implicitHeight: 28
                                 Layout.alignment: Qt.AlignVCenter
 
                                 IconImage {

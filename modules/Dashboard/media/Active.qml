@@ -13,22 +13,21 @@ Rectangle {
     anchors.fill: parent
     color: "transparent"
     RowLayout {
-        anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
         //visible: activeSpotifyPlayer === null ? false : true
         id: mediaText
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
         Text {
             id: title
             text: Services.MediaPlayer.activePlayer.trackTitle
             color: "white"
             font.family: Config.Theme.fontFamily
             font.pixelSize: Config.Theme.fontSize
-
         }
-        
+
         MediaButtons {}
     }
-        
+
     Rectangle {
         //visible: activeSpotifyPlayer === null ? false : true
         id: cover
@@ -41,7 +40,7 @@ Rectangle {
 
         color: Config.Theme.accentPrimary
         radius: Infinity
-        
+
         Image {
             id: image
 
@@ -56,7 +55,7 @@ Rectangle {
     }
     Rectangle {
         id: anchorItem
-        anchors.top: cover.bottom 
+        anchors.top: cover.bottom
         anchors.horizontalCenter: cover.horizontalCenter
         anchors.topMargin: 10
         height: 30
@@ -70,12 +69,12 @@ Rectangle {
         MouseArea {
             preventStealing: true
             anchors.fill: parent
-            onClicked: (popup.visible = !popup.visble)
+            onClicked: (popup.visible = !popup.visible)
         }
-        
+
         PopupWindow {
-            implicitHeight: 30 * Services.MediaPlayer.players.length
             id: popup
+            implicitHeight: 30 * Services.MediaPlayer.players.length
             visible: false
             anchor.item: anchorItem
             color: "purple"
@@ -87,10 +86,10 @@ Rectangle {
                 exclusionMode: ExclusionMode.Ignore
                 focusable: false
                 anchors {
-                    top:true
-                    left:true
-                    right:true
-                    bottom:true
+                    top: true
+                    left: true
+                    right: true
+                    bottom: true
                 }
                 visible: popup.visible
                 color: "transparent"
@@ -104,16 +103,14 @@ Rectangle {
                 //color: "pink"
                 Repeater {
                     model: Services.MediaPlayer.players
-                    
 
-                    
                     Rectangle {
                         color: "blue"
                         //property var idk : model
                         required property int index
-                        
+
                         //root.currentIndex: thisIndex
-                        
+
                         //currentIndex : thisIndex
                         height: 30
                         width: 70//parent.width
@@ -129,10 +126,7 @@ Rectangle {
                     }
                 }
             }
-            
 
-
-            
             /*Rectangle {
                 color: "pink"
                 height: 30
@@ -141,9 +135,9 @@ Rectangle {
         }
     } //rewrite this to make a media source picker like caelestia. after that is done, refactor the entire above to make active spotify player active player from the player found here. This will probably have to change a value in media player.
     function switchActivePlayer(player, index) {
-        console.log("this is players " + player + " and index is " + index)
-        Services.MediaPlayer.activePlayer = player
-        console.log("This is " + Services.MediaPlayer.activePlayer.identity)
-        popup.visible = false
+        console.log("this is players " + player + " and index is " + index);
+        Services.MediaPlayer.activePlayer = player;
+        console.log("This is " + Services.MediaPlayer.activePlayer.identity);
+        popup.visible = false;
     }
 }

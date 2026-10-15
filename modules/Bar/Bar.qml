@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick
 import Quickshell.Io
 import QtQuick.Shapes
+import Quickshell.Hyprland
 
 import qs.config as Config
 import "../Dashboard/"
@@ -12,15 +13,24 @@ import qs.Types
 
 Scope {
     property bool dashboardOpen: false
-    PanelWindow {
-        implicitHeight: 3
-        anchors {
-            top: true
-            left: true
-            right: true
+    Variants {
+        model: Quickshell.screens
+        delegate: Component {
+
+            PanelWindow {
+                required property var modelData
+                screen: modelData
+                implicitHeight: 3
+                anchors {
+                    top: true
+                    left: true
+                    right: true
+                }
+                color: Config.Theme.colBg
+            }
         }
-        color: Config.Theme.colBg
     }
+
     Variants {
         model: Quickshell.screens
         delegate: Component {
@@ -62,8 +72,13 @@ Scope {
                     text: Services.LayoutService.currentLayout
                 }
 
-                WindowTitle {}
-
+                WindowTitle {
+                    id: title
+                }
+                /*Text {
+                    text: Hyprland
+                    anchors.left: title.right
+                }*/
                 /*Rectangle {
             anchors.right: betweenDashAndPower.left
             width: 30

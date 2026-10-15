@@ -6,6 +6,7 @@ import Quickshell.Wayland
 import QtQuick.Layouts
 
 import qs.config as Config
+import qs.services as Services
 
 PanelWindow {
     id: powerConfirmPanel
@@ -179,7 +180,7 @@ PanelWindow {
                     }
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: lock.running = true
+                        onClicked: Services.Lock.locked = true
                     }
                     Process {
                         id: lock
