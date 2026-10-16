@@ -3,6 +3,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Services.Pam
+import QtQuick.Controls
 
 import qs.services as Services
 import qs.config as Config
@@ -23,14 +24,6 @@ Scope {
             id: lockSurface
             color: Config.Theme.colBg
             readonly property alias pamResponseRequired: pam.responseRequired
-            Text {
-                text: "unlock"
-                color: Config.Theme.colFg
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: Services.Lock.locked = false
-                }
-            }
             Rectangle {
                 id: rect
                 anchors.centerIn: parent
@@ -49,38 +42,90 @@ Scope {
                     onAccepted: lockSurface.requestUnlock()
                 }
             }
-            Text {
-                id: test
-                text: ""
-                color: Config.Theme.colFg
-                anchors.top: rect.bottom
+            BusyIndicator {
+                id: control
+                running: pam.active
+                anchors.right: rect.right
+                anchors.verticalCenter: rect.verticalCenter
+
+                contentItem: Item {
+                    implicitWidth: 40
+                    implicitHeight: 40
+
+                    Item {
+                        id: item
+                        x: parent.width / 2 - 20
+                        y: parent.height / 2 - 20
+                        width: 40
+                        height: 40
+                        opacity: control.running ? 1 : 0
+
+                        Behavior on opacity {
+                            OpacityAnimator {
+                                duration: 250
+                            }
+                        }
+
+                        RotationAnimator {
+                            target: item
+                            running: control.visible && control.running
+                            from: 0
+                            to: 360
+                            loops: Animation.Infinite
+                            duration: 1250
+                        }
+
+                        Repeater {
+                            id: repeater
+                            model: 6
+
+                            Rectangle {
+                                id: delegate
+                                x: item.width / 2 - width / 2
+                                y: item.height / 2 - height / 2
+                                implicitWidth: 10
+                                implicitHeight: 10
+                                radius: 5
+                                color: "white"
+
+                                required property int index
+
+                                transform: [
+                                    Translate {
+                                        y: -Math.min(item.width, item.height) * 0.5 + 5
+                                    },
+                                    Rotation {
+                                        angle: delegate.index / repeater.count * 360
+                                        origin.x: 5
+                                        origin.y: 5
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
             }
             Text {
-                id: variables
-                text: "timed out " + root.timedOut + " uip " + root.unlockInProgress + " pamactive " + root.pamActivated + " failure " + root.showFailure + " timer " + timeoutTimer.running
-                anchors.top: test.bottom
-                color: Config.Theme.colFg
+                anchors.top: rect.bottom
                 anchors.horizontalCenter: rect.horizontalCenter
+                color: "white"
+                //TODO make the text be an error from pam
             }
             PamContext {
                 id: pam
                 signal onMessage
                 onCompleted: result => {
-                    test.text = "Uh we got a completion";
                     if (root.timedOut) {
                         return;
                     }
                     if (result == PamResult.Success) {
-                        test.text = "the completion is good";
                         root.unlockInProgress = false;
                         root.pamActivated = false;
                         passwordInput.text = "";
                         Services.Lock.locked = false;
                     } else if (result == PamResult.MaxTries) {
-                        test.text = "max tries";
                         //Do smth to make it so that you cannot put any more tries in
                     } else {
-                        test.text = "Auth failed";
                         passwordInput.text = "";
                         root.showFailure = true;
                         root.unlockInProgress = false;
@@ -88,7 +133,6 @@ Scope {
                     }
                 }
                 onPamMessage: () => {
-                    test.text = "got message";
                     lockSurface.respondToPam(passwordInput.text);
                 }
             }
@@ -110,17 +154,14 @@ Scope {
             }
 
             function tryUnlock() {
-                test.text = "trying unlock";
                 if (root.unlockInProgress)
                     return;
                 root.unlockInProgress = true;
                 root.showFailure = false;
                 pam.start();
-                test.text = "back from pam start";
             }
 
             function requestUnlock() {
-                test.text = "requesting unlock";
                 if (root.unlockInProgress || root.pamActivated)
                     return;
                 root.pamActivated = true;
