@@ -16,18 +16,18 @@ RowLayout {
         font.pixelSize: Config.Theme.fontSize
         MouseArea {
             anchors.fill: parent
-            onClicked: Services.MediaPlayer.activeSpotifyPlayer.previous()
+            onClicked: Services.MediaPlayer.activePlayer.previous()
         }
     }
     Text {
         id: pausePlay
-        text: Services.MediaPlayer.activeSpotifyPlayer.playbackState == true ? "󰏤" : "󰐊"
+        text: Services.MediaPlayer.activePlayer.isPlaying ? "󰏤" : "󰐊"
         color: "white"
         font.family: Config.Theme.fontFamily
         font.pixelSize: Config.Theme.fontSize
         MouseArea {
             anchors.fill: parent
-            onClicked: Services.MediaPlayer.activeSpotifyPlayer.isPlaying === true ? Services.MediaPlayer.activeSpotifyPlayer.pause() : Services.MediaPlayer.activeSpotifyPlayer.play()
+            onClicked: Services.MediaPlayer.activePlayer.isPlaying === true ? Services.MediaPlayer.activePlayer.pause() : Services.MediaPlayer.activePlayer.play()
         }
     }
     Text {
@@ -38,7 +38,7 @@ RowLayout {
         font.pixelSize: Config.Theme.fontSize
         MouseArea {
             anchors.fill: parent
-            onClicked: Services.MediaPlayer.activeSpotifyPlayer.next()
+            onClicked: Services.MediaPlayer.activePlayer.next()
         }
     }
     function nothing() {

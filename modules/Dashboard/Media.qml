@@ -5,7 +5,7 @@ import qs.services as Services
 
 Rectangle {
     id: root
-    property bool active: Services.MediaPlayer.activePlayer != null
+    property bool active: Services.MediaPlayer.players.length > 0
     //width: mediaText.width
     //height: mediaText.height + cover.height + 10
     width: 500
