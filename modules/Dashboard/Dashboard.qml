@@ -26,29 +26,32 @@ Scope {
     property int numButtons: 3
     PanelWindow {
         id: dashboardPanel
-        /*PanelWindow {
-            exclusionMode: ExclusionMode.Ignore
-            focusable: false
-            anchors {
-                top:true
-                left:true
-                right:true
-                bottom:true
-            }
-            visible: dashboardPanel.visible
-            color: "transparent"
-            MouseArea {
-                anchors.fill: parent
-                onClicked: dashboardPanel.visible = false
-            }
-        }*/
         visible: false
         exclusiveZone: 0
-        //color: Config.Theme.colBg
-        color: "transparent"
+        //color: "transparent"
+        implicitWidth: media.width + 50 // change this to not change and be a good width
+        implicitHeight: media.height + 15 + tabBar.height
         anchors {
             top: true
         }
+        /*PopupWindow {
+            anchor.window: dashboardPanel
+            anchor.rect.x: dashboardPanel.implicitWidth
+            anchor.rect.y: -500
+            width: rightCorner.widthVar
+            height: rightCorner.heightVar
+            visible: true
+            color: "transparent"
+            Corner {
+                id: rightCorner
+                widthVar: 100
+                heightVar: 100
+                controlXvar: 10
+                controlYvar: 10
+                cornerColor: "pink"//Config.Theme.colBg
+            }
+        }*/
+
         Rectangle {
             anchors.fill: parent
             color: Config.Theme.colBg
@@ -57,8 +60,6 @@ Scope {
             //radius: 30
             //topRightRadius: 30
         }
-        implicitWidth: media.width + 50 // change this to not change and be a good width
-        implicitHeight: media.height + 15 + tabBar.height
 
         Rectangle {
             id: tabBar
@@ -115,7 +116,6 @@ Scope {
                 }
             }
         }
-
         /*TabBar {
             id: tabBar
             implicitWidth: parent.width

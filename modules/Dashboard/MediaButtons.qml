@@ -5,6 +5,7 @@ import Quickshell.Services.Mpris
 import qs.config as Config
 import qs.services as Services
 
+//TODO make it work with the current player and not activeSpotifyPlayer
 RowLayout {
 
     Text {
